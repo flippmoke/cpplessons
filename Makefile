@@ -1,9 +1,6 @@
 CC := $(CC)
 CXX := $(CXX)
 CXXFLAGS := $(CXXFLAGS) -Iinclude -std=c++11
-RELEASE_FLAGS := -O3 -DNDEBUG
-WARNING_FLAGS := -Wall -Wextra -Werror -Wsign-compare -Wfloat-equal -Wfloat-conversion -Wshadow -Wno-unsequenced
-DEBUG_FLAGS := -g -O0 -DDEBUG -fno-inline-functions -fno-omit-frame-pointer
 
 example_1:
 	$(CXX) src/example1.cpp -o example_1 $(CXXFLAGS)
@@ -26,3 +23,15 @@ example_5:
 	$(CXX) -c src/example5_main.cpp $(CXXFLAGS)
 	$(CXX) -c src/example5_other.cpp $(CXXFLAGS)
 	$(CXX) example5_main.o example5_other.o -o example_5 $(CXXFLAGS)
+
+example_6:
+	$(CXX) -c src/example6_library1.cpp $(CXXFLAGS)
+	$(CXX) -c src/example6_library2.cpp $(CXXFLAGS)
+	ar rcs libexample6.a example6_library1.o example6_library2.o
+	$(CXX) src/example6.cpp -o example_6 $(CXXFLAGS) -lexample6 -L.
+
+example_7:
+	$(CXX) -c src/example6_library1.cpp $(CXXFLAGS)
+	$(CXX) -c src/example6_library2.cpp $(CXXFLAGS)
+	$(CXX) -shared example6_library1.o example6_library2.o -o libexample7.dylib
+	$(CXX) src/example6.cpp -o example_7 $(CXXFLAGS) -lexample7 -L.
