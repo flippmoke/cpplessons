@@ -35,3 +35,6 @@ example_7:
 	$(CXX) -c src/example6_library2.cpp $(CXXFLAGS)
 	$(CXX) -shared example6_library1.o example6_library2.o -o libexample7.dylib
 	$(CXX) src/example6.cpp -o example_7 $(CXXFLAGS) -lexample7 -L.
+
+example_8:
+	$(CXX) src/example8.cpp -o example_8 $(CXXFLAGS)
